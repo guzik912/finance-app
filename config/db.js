@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-
-const mongoURI =
-  'mongodb+srv://guzik:guzik1234@finance.uuxff.mongodb.net/finance?retryWrites=true&w=majority';
+const { mongoURI } = require('./url');
 
 const connectDB = () => {
   mongoose
-    .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
     .then(() => console.log(`MongoDB connected!`))
     .catch((err) => console.log(err));
 };

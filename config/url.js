@@ -1,0 +1,2 @@
+exports.sendGridURI = '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';
+exports.mongoURI = 'mongodb+srv://guzik:guzik1234@finance.uuxff.mongodb.net/finance?retryWrites=true&w=majority';
