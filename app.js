@@ -2,6 +2,8 @@ const express = require('express');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const financialRoutes = require('./routes/financial');
 
 const app = express();
 connectDB();
@@ -14,7 +16,9 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/financial', financialRoutes);
+app.use('/api/user', userRoutes);
 
 const PORT = process.env.PORT || 5000;
 

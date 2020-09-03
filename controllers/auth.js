@@ -16,6 +16,18 @@ const transporter = nodemailer.createTransport(
   })
 );
 
+
+
+exports.authUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+}
+  
+
 exports.signup = async (req, res) => {
   const { username, email, password } = req.body;
   let accountConfirmToken;
@@ -66,6 +78,7 @@ exports.signup = async (req, res) => {
         'User registered! Please confirm your registration from your email account.',
     });
   } catch (err) {
+    console.log(err)
     return res.status(500).json({ errors: 'Server error' });
   }
 };
@@ -238,3 +251,26 @@ exports.postNewPassword = async (req, res) => {
     return res.status(500).json({ errors: 'Server error' });
   }
 };
+
+
+exports.showUsers = async (req, res) => {
+  try {
+    const users = await User.find().populate(
+      {
+        path: 'financials',
+        path: 'financialsHistory',
+        populate: {
+          path: 'financial',
+        }
+      });
+
+    if(!users) {
+      return res.status(401).json({ errors: 'No any user exist'})
+    } 
+
+    return res.status(200).json({ users });
+  } catch(err) {
+    console.log(err)
+    return res.status(500).json({ errors: 'Server error'})
+  }
+}
