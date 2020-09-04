@@ -4,6 +4,9 @@ const router = express.Router();
 const authController = require('../controllers/auth');
 const isAuth = require('../middlewares/auth');
 
+
+router.get('/', isAuth, authController.authUser);
+
 router.post(
   '/signup',
   [

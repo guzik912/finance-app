@@ -16,4 +16,17 @@ router.delete('/sellFinancial/:id', isAuth, userController.sellFinancial);
 
 router.post('/calcFinancialProfit/:id', isAuth, userController.calcFinancialProfit);
 
+router.post('/applyForCredit/:id', isAuth, userController.applyForCredit);
+
+router.get('/payOffCredit/:id', isAuth, userController.payOffCredit);
+
+router.post('/updateWallet', isAuth, userController.updateWallet);
+
+router.post('/payInCash', isAuth, userController.payInCash);
+
+router.post('/payOutCash', isAuth, userController.payOutCash);
+
+router.post('/setPersonalData', isAuth, userController.setPersonalData);
+
+
 module.exports = router;

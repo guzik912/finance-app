@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const financialRoutes = require('./routes/financial');
+const creditRoutes = require('./routes/credit');
 
 const app = express();
 connectDB();
@@ -17,8 +18,9 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/auth', authRoutes);
-app.use('/api/financial', financialRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/financial', financialRoutes);
+app.use('/api/credit', creditRoutes);
 
 const PORT = process.env.PORT || 5000;
 

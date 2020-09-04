@@ -15,6 +15,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  personalData: {
+    firstName: String,
+    lastName: String,
+    email: String,
+    phoneNumber: Number,
+    address: {
+      country: String,
+      city: String,
+      street: String
+    },
+  },
   accountConfirmStatus: {
     type: Boolean,
     default: false,
@@ -84,14 +95,48 @@ const userSchema = new Schema({
   ],
   credits: [
     {
+      credit: {
+        type: Schema.Types.ObjectId,
+        ref: 'Credit',
+      },
+      loan: Number,
+      term: String,
+      repayment: Number,
+    },
+  ],
+  creditsHistory: [
+    {
+      credit: {
+        type: Schema.Types.ObjectId,
+        ref: 'Credit'
+      },
+      loan: Number,
+      term: String,
+      repayment: Number,
+    }
+  ],
+  creditProposal: {
+    creditId: {
       type: Schema.Types.ObjectId,
       ref: 'Credit',
     },
-  ],
-  wallet: {
-    type: Schema.Types.ObjectId,
-    ref: 'Wallet',
+    loan: Number,
+    term: String,
+    status: String
   },
+  wallet: {
+    totalMoney: {
+      type: Number,
+      default: 0,
+    }
+  },
+  mailbox: [
+    {
+      title: String,
+      description: String,
+      date: Date,
+    }
+  ]
 });
 
 module.exports = mongoose.model('User', userSchema);
