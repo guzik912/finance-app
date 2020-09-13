@@ -1,0 +1,34 @@
+@import '../../../App.scss';
+
+.wrapper {
+  width: 100%;
+  margin: 2rem 0;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 1px 1px 4px -1px rgba(0, 0, 0, .25);
+  transition: .15s ease-in-out;
+
+  h2 {
+    margin-left: 1rem;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 1px 3px 6px -2px rgba(0, 0, 0, .25);
+    cursor: pointer;
+  }
+}
+
+.financialCurrency {
+  i {
+    font-size: .8rem;
+  }
+}
+
+.financialPrecentage {
+  margin-left: auto;
+  font-size: .8rem;
+  font-weight: 700;
+  color: $fontColorGreen;
+}

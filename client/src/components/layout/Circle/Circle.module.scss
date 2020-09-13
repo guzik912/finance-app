@@ -1,0 +1,43 @@
+@import '../../../App.scss';
+
+.circle {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: $bgcColorSecondary;
+  z-index: -1;
+
+  @media (min-width: $breakpointTablet) {
+    width: 1000px;
+    height: 1000px;
+  }
+
+  @media (min-width: $breakpointLaptop) {
+    width: 1440px;
+    height: 1440px;
+  }
+
+  @media (min-width: $breakpointLaptopL) {
+    width: 2000px;
+    height: 2000px;
+  }
+
+  @media (min-width: $breakpointDesktop) {
+    width: 2500px;
+    height: 2500px;
+  }
+
+  &PositionRight {
+    @extend .circle;
+    left: 100%;
+  }
+
+  &PositionBottom {
+    @extend .circle;
+    top: 90%;
+  }
+}

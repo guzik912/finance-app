@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;700;900&display=swap');
+
+
+$fontColorPrimary: #333;
+$fontColorSecondary: #fff;
+$fontColorTertiary: #1a6c86;
+$fontColorRed: #fd5a5a;
+$fontColorGreen: #418a3b;
+$fontColorGray: #aaa;
+
+$bgcColorPrimary: #fff;
+$bgcColorDark: #333;
+$bgcColorSecondary: #1a6c86;
+$bgcColorGreen: #418a3b;
+
+$fontFamily: 'Montserrat',
+sans-serif;
+
+//mediaQueries breakpoints
+$breakpointMobileS: 360px;
+$breakpointMobileM: 375px;
+$breakpointMobileL: 411px;
+$breakpointTablet: 768px;
+$breakpointLaptop: 1024px;
+$breakpointLaptopL: 1440px;
+$breakpointDesktop: 1920px;
+
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: $fontFamily;
+  color: $fontColorPrimary;
+  overflow-y: hidden;
+}

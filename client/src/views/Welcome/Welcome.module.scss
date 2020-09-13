@@ -1,0 +1,73 @@
+@import '../../App.scss';
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.btnWrapper {
+  text-align: right;
+}
+
+
+.iconsWrapper {
+  display: flex;
+  margin-bottom: 3rem;
+  justify-content: space-between;
+
+  @media (min-width: $breakpointTablet) {
+    justify-content: space-evenly;
+    margin-bottom: 4rem;
+  }
+
+  @media (min-width: $breakpointLaptop) {
+    margin-bottom: 5rem;
+  }
+
+  @media (min-width: $breakpointLaptopL) {
+    justify-content: center;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  i {
+    color: $fontColorPrimary;
+    font-size: 1.5rem;
+
+    @media (min-width: $breakpointTablet) {
+      font-size: 1.8rem;
+    }
+
+    @media (min-width: $breakpointLaptop) {
+      font-size: 2.2rem;
+    }
+  }
+
+  @media (min-width: $breakpointLaptopL) {
+    margin: 0 4rem;
+  }
+}
+
+.iconDescription {
+  margin-top: .5rem;
+  color: $fontColorSecondary;
+  font-size: .7rem;
+
+  @media (min-width: $breakpointTablet) {
+    font-size: 1rem;
+  }
+
+  @media (min-width: $breakpointLaptop) {
+    font-size: 1.2rem;
+  }
+}

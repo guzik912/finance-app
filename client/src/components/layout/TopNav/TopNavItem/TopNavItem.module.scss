@@ -1,0 +1,25 @@
+@import '../../../../App.scss';
+
+.navItem {
+  padding: .4rem;
+  color: $fontColorPrimary;
+  font-size: .7rem;
+  transition: .15s ease-in-out;
+  border-radius: 30px;
+  border: 1px solid $bgcColorDark;
+  cursor: pointer;
+
+  &:hover {
+    color: $fontColorSecondary;
+    background: $bgcColorDark;
+  }
+
+  &:nth-child(2) {
+    margin-left: 1rem;
+  }
+
+  &Active {
+    background: $bgcColorDark;
+    color: $fontColorSecondary;
+  }
+}

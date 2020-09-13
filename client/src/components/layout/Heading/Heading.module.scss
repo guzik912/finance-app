@@ -1,0 +1,28 @@
+@import '../../../App.scss';
+
+.heading {
+  color: $fontColorTertiary;
+  font-size: 1.7rem;
+  text-align: center;
+
+  @media (min-width: $breakpointTablet) {
+    font-size: 2.6rem;
+  }
+
+  @media (min-width: $breakpointLaptop) {
+    font-size: 2.8rem;
+  }
+
+  &Secondary {
+    font-size: .9rem;
+    font-weight: 100;
+
+    @media (min-width: $breakpointTablet) {
+      font-size: 1.6rem;
+    }
+
+    @media (min-width: $breakpointLaptop) {
+      font-size: 1.8rem;
+    }
+  }
+}

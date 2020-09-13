@@ -1,0 +1,46 @@
+@import '../../App.scss';
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $fontColorSecondary;
+
+  h3 {
+    margin-top: 5rem;
+  }
+}
+
+.totalMoney {
+  font-size: 2.4rem;
+}
+
+.walletOptions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  margin-top: auto;
+  height: 40%;
+  background: $bgcColorPrimary;
+  color: $fontColorPrimary;
+  border-radius: 20px;
+
+  &>* {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 1.5rem;
+    transition: .15s ease-in-out;
+
+    &:hover {
+      transform: translateY(-3px);
+      cursor: pointer;
+    }
+  }
+
+  i {
+    font-size: 2rem;
+  }
+}

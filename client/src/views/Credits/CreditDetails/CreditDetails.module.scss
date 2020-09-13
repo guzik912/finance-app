@@ -1,0 +1,30 @@
+@import '../../../App.scss';
+
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    margin: 2rem 0 1rem 0;
+    text-align: left;
+  }
+
+  button {
+    margin-top: auto;
+    margin-bottom: 2rem;
+  }
+}
+
+.advantages {
+  color: $fontColorGray;
+
+  &Item {}
+}
+
+.requirements {
+  margin-bottom: 3rem;
+  color: $fontColorGray;
+
+  &Item {}
+}

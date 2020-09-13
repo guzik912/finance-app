@@ -1,0 +1,53 @@
+@import '../../App.scss';
+
+.wrapper {
+  height: 100%;
+  // padding: 1rem 0;
+  // display: flex;
+  // justify-content: flex-start;
+  // flex-direction: column;
+
+
+  &>* {
+    margin: 1.5rem 0;
+
+    @media (min-width: $breakpointTablet) {
+      margin: 2rem 0;
+    }
+  }
+
+  i {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    color: $fontColorGray;
+  }
+
+  button {
+    align-self: center;
+  }
+}
+
+.username,
+.money {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.addressDetails {
+  &>* {
+    margin: 1.5rem 0;
+
+    @media (min-width: $breakpointTablet) {
+      margin: 2rem 0;
+    }
+  }
+}
+
+.btnContainer {
+  margin-top: 2rem;
+  text-align: center;
+
+  @media (min-width: $breakpointTablet) {
+    margin-top: 5rem;
+  }
+}
