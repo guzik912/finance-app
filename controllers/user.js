@@ -8,11 +8,11 @@ exports.buyFinancial = async (req, res) => {
   try {
     const financial = await Financial.findById({ _id: financialId });
     if (!financial) {
-      return res.status(401).json({ errors: 'No financial exist' });
+      return res.status(401).json({ errors: [{msg:'No finance exists'}]});
     }
     const user = await User.findById({ _id: req.user.id });
     if (!user) {
-      return res.status(401).json({ errors: 'No users exist' });
+      return res.status(401).json({ errors: [{msg:'No users exists'}]});
     }
 
     const boughtFinancial = {
@@ -29,10 +29,9 @@ exports.buyFinancial = async (req, res) => {
 
     await user.save();
 
-    return res.status(201).json({ msg: 'Financials successfully bought ' });
+    return res.status(201).json({ msg: 'Finance successfully bought ' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -42,12 +41,12 @@ exports.rebuyFinancial = async (req, res) => {
   try {
     const financial = await Financial.findById({ _id: financialId });
     if (!financial) {
-      return res.status(401).json({ errors: 'No financial exist' });
+      return res.status(401).json({ errors: [{msg:'No finance exists'}]});
     }
     const user = await await User.findById({ _id: req.user.id });
 
     if (!user) {
-      return res.status(401).json({ errors: 'No users exist' });
+      return res.status(401).json({ errors: [{msg:'No users exists'}] });
     }
 
     const newInvestment = {
@@ -65,10 +64,9 @@ exports.rebuyFinancial = async (req, res) => {
 
     await user.save();
 
-    return res.status(201).json({ msg: 'Financials successfully bought ' });
+    return res.status(201).json({ msg: 'Finance successfully bought' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -78,13 +76,13 @@ exports.sellFinancial = async (req, res) => {
     const user = await User.findById({ _id: req.user.id });
 
     if (!user) {
-      return res.status(401).json({ errors: 'No users exist' });
+      return res.status(401).json({ errors: [{msg:'No users exist'}]});
     }
 
     const financial = await Financial.findById({ _id: financialId });
 
     if (!financial) {
-      return res.status(401).json({ errors: 'No financial exist' });
+      return res.status(401).json({ errors: [{msg:'No finance exists'}]});
     }
 
     const financialIndexToRemove = user.financials.findIndex(
@@ -99,14 +97,13 @@ exports.sellFinancial = async (req, res) => {
 
     await user.save();
 
-    return res.status(200).json({ msg: 'Financial successfully sold' });
+    return res.status(200).json({ msg: 'Finance successfully sold' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
-exports.calcFinancialProfit = async (req, res) => {
+exports.calcFinancialInvestments = async (req, res) => {
   const financialId = req.params.id;
   const updatedFinancialProfit = req.body.updatedFinancialProfit;
 
@@ -114,16 +111,15 @@ exports.calcFinancialProfit = async (req, res) => {
     const user = await User.findById({ _id: req.user.id });
 
     if (!user) {
-      return res.status(401).json({ errors: 'No users exist' });
+      return res.status(401).json({ errors: [{msg:'No users exists'}]});
     }
 
     const currentFinancial = user.financials.find(
       (financial) => financial.financial == financialId
     );
-    console.log(currentFinancial);
 
     if (!currentFinancial) {
-      return res.status(401).json({ errors: 'No financial exist' });
+      return res.status(401).json({ errors: [{msg:'No financial exists'}]});
     }
 
     currentFinancial.investment.forEach((el, index) => {
@@ -132,10 +128,9 @@ exports.calcFinancialProfit = async (req, res) => {
     });
 
     await user.save();
-    return res.status(200).json({ msg: 'Financials calculated successfully' });
+    return res.status(200).json({ msg: 'Finances calculated successfully' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -146,7 +141,7 @@ exports.applyForCredit = async (req, res) => {
     const user = await User.findById({ _id: req.user.id });
 
     if (!user) {
-      return res.status(401).json({ errors: 'No users exist' });
+      return res.status(401).json({ errors: [{msg:'No users exists'}]});
     }
 
     user.creditProposal = {
@@ -154,13 +149,13 @@ exports.applyForCredit = async (req, res) => {
       loan,
       term,
       status: 'pending',
+      startDate: Date.now(),
     };
 
     await user.save();
     return res.status(201).json({ msg: 'You successfully aplied for credit' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -169,15 +164,14 @@ exports.payOffCredit = async (req, res) => {
   try {
     const user = await User.findById({ _id: req.user.id });
     if (!user) {
-      return res.status(401).json({ errors: 'No user exist' });
+      return res.status(401).json({ errors: [{msg:'No user exists'}] });
     }
 
     const credit = await Credit.findById({ _id: creditId });
     if (!credit) {
-      return res.status(401).json({ errors: 'No credit exist' });
+      return res.status(401).json({ errors: [{msg:'No credit exists'}] });
     }
 
-    console.log(credit);
     const creditIndexToRemove = user.credits.findIndex(
       (credit) => credit.credit == creditId
     );
@@ -187,6 +181,8 @@ exports.payOffCredit = async (req, res) => {
       loan: user.credits[creditIndexToRemove].loan,
       term: user.credits[creditIndexToRemove].term,
       repayment: user.credits[creditIndexToRemove].repayment,
+      startDate: user.credits[creditIndexToRemove].startDate,
+      finishDate: Date.now(),
     });
 
     user.credits.splice(creditIndexToRemove, 1);
@@ -195,8 +191,7 @@ exports.payOffCredit = async (req, res) => {
 
     return res.status(200).json({ msg: 'Credit successfully paid off' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -206,76 +201,73 @@ exports.updateWallet = async (req, res) => {
   try {
     const user = await User.findById({ _id: req.user.id });
     if (!user) {
-      return res.status(401).json({ errors: 'No user exist' });
+      return res.status(401).json({ errors: [{msg:'No user exists'}]});
     }
 
     if (operation === 'payIn') {
-      user.wallet.totalMoney += value;
-    } else {
-      user.wallet.totalMoney -= value;
+      user.wallet.totalMoney += parseFloat(value);
+    } else if(operation === 'payOut') {
+      user.wallet.totalMoney -= parseFloat(value);
     }
 
     await user.save();
     return res.status(201).json({ msg: 'Wallet updated' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
 exports.payInCash = async (req, res) => {
-  const { value } = req.body;
+  const { money } = req.body;
 
   try {
     const user = await User.findById({ _id: req.user.id });
     if (!user) {
-      return res.status(401).json({ errors: 'No user exist' });
+      return res.status(401).json({ errors: [{msg:'No user exists'}]});
     }
 
-    user.wallet.totalMoney += value;
+    user.wallet.totalMoney = user.wallet.totalMoney + parseFloat(money);
 
     await user.save();
     return res.status(201).json({ msg: 'Money pay in successfully' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
 exports.payOutCash = async (req, res) => {
-  const { value } = req.body;
+  const { money } = req.body;
 
   try {
     const user = await User.findById({ _id: req.user.id });
     if (!user) {
-      return res.status(401).json({ errors: 'No user exist' });
+      return res.status(401).json({ errors: [{msg:'No user exists'}] });
     }
 
-    user.wallet.totalMoney -= value;
+    user.wallet.totalMoney = user.wallet.totalMoney - parseFloat(money);
 
     await user.save();
     return res.status(201).json({ msg: 'Money pay out successfully' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
 
 
 exports.setPersonalData = async (req, res) => {
-  const { firstName, lastName, phoneNumber, address: { country, city, street }} = req.body;
+  const { firstName, lastName, email, phoneNumber, country, city, street } = req.body;
 
   try {
     const user = await User.findById({ _id: req.user.id });
     if(!user) {
-      return res.status(401).json({ errors: 'No user exist' });
+      return res.status(401).json({ errors: [{msg:'No user exists'}] });
     }
 
     user.personalData = {
       firstName,
       lastName,
-      email: user.email,
+      email,
       phoneNumber,
       address: {
         country,
@@ -283,11 +275,52 @@ exports.setPersonalData = async (req, res) => {
         street
       }
     }
-
+    
     await user.save();
 
     return res.status(201).json({ msg: 'Personal data successfully setted' });
   } catch(err) {
-    return res.status(500).json({ errors: 'Server error'});
+    return res.status(500).send('Server error');
+  }
+}
+
+
+exports.deleteMessage = async (req, res) => {
+  const messageId = req.params.id;
+  try {
+    const user = await User.findById({ _id: req.user.id });
+
+    if (!user) {
+      return res.status(401).json({ errors: [{msg:'No users exists'}]});
+    }
+
+    const messageIndexToRemove = user.mailbox.findIndex(
+      (message) => message._id == messageId
+    );
+
+    user.mailbox.splice(messageIndexToRemove, 1);
+    await user.save();
+
+    return res.status(200).json({ msg: 'Message deleted' });
+  } catch (err) {
+    return res.status(500).send('Server error');
+  }
+}
+
+exports.deleteMessages = async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.user.id });
+
+    if (!user) {
+      return res.status(401).json({ errors: [{msg:'No users exists'}]});
+    }
+
+
+    user.mailbox = [];
+    await user.save();
+
+    return res.status(200).json({ msg: 'Mailbox is empty' });
+  } catch (err) {
+    return res.status(500).send('Server error');
   }
 }

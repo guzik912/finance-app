@@ -2,7 +2,6 @@
 
 .message {
   display: flex;
-  // justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
   border-bottom: 1px solid rgba($fontColorGray, .5);
@@ -14,6 +13,7 @@
 
   &Title {
     font-weight: 700;
+    color: $fontColorPrimary;
   }
 
   &Description {
@@ -25,13 +25,11 @@
     margin-left: auto;
     font-size: .8rem;
     font-weight: 100;
+    color: $fontColorGray;
   }
 
   &:hover {
-    // transform: translateY(-1px);
     border-color: $fontColorGray;
-
     cursor: pointer;
-    // background: darken(#fff, 5%);
   }
 }

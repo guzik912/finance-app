@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './ApplyCreditForm.module.scss';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 import Button from '../../shared/Button/Button';
 
 const Context = React.createContext({
@@ -12,13 +13,6 @@ const Context = React.createContext({
 
 const ProgressBar = () => {
   const { currentPage } = useContext(Context);
-
-  // const progressInnerBarClassName =
-  //   currentPage === 1
-  //     ? styles.progressInnerBarFirstStep
-  //     : currentPage === 2
-  //     ? styles.progressInnerBarSecondStep
-  //     : styles.progressInnerBarThirdStep;
 
   const progressInnerBarClassName =
     currentPage === 2
@@ -48,7 +42,7 @@ const Page = ({ children, pageIndex }) => {
   ) : null;
 };
 
-const Buttons = () => {
+const Buttons = ({onClick}) => {
   const { changePage, currentPage, pageIndexes } = useContext(Context);
 
   return (
@@ -64,7 +58,7 @@ const Buttons = () => {
         disabled={currentPage === pageIndexes.length}
       />
       {currentPage === pageIndexes.length ? (
-        <Button text='apply' secondary />
+        <Button text='apply' secondary onClick={onClick} />
       ) : null}
     </div>
   );
@@ -95,6 +89,19 @@ const Wrapper = ({ children }) => {
       </Context.Provider>
     </div>
   );
+};
+
+Page.propTypes = {
+  children: PropTypes.any.isRequired,
+  pageIndex: PropTypes.number.isRequired,
+};
+
+Buttons.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
+
+Wrapper.propTypes = {
+  children: PropTypes.any.isRequired,
 };
 
 export { Wrapper, Page, Buttons, ProgressBar };

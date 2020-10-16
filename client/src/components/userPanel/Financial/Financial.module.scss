@@ -11,24 +11,28 @@
 
   h2 {
     margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   &:hover {
-    transform: scale(1.01);
     box-shadow: 1px 3px 6px -2px rgba(0, 0, 0, .25);
     cursor: pointer;
   }
-}
 
-.financialCurrency {
   i {
     font-size: .8rem;
+    color: $fontColorPrimary;
   }
 }
+
 
 .financialPrecentage {
   margin-left: auto;
   font-size: .8rem;
   font-weight: 700;
   color: $fontColorGreen;
+
+  &Negative {
+    color: $fontColorRed;
+  }
 }

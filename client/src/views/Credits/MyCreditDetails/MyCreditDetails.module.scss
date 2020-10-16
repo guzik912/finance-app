@@ -1,7 +1,23 @@
+@import '../../../App.scss';
+
 .wrapper {
 
   h2 {
     margin: 1rem 0;
+  }
+
+  p {
+    font-weight: 700;
+    text-align: left;
+  }
+
+  span {
+    font-weight: 300;
+  }
+
+
+  i {
+    color: $fontColorPrimary;
   }
 }
 

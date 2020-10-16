@@ -10,21 +10,21 @@
     text-align: left;
   }
 
-  button {
-    margin-top: auto;
-    margin-bottom: 2rem;
+  i {
+    color: $fontColorPrimary;
   }
 }
 
-.advantages {
-  color: $fontColorGray;
-
-  &Item {}
+.description {
+  text-align: left;
 }
 
-.requirements {
+.terms {
   margin-bottom: 3rem;
-  color: $fontColorGray;
+}
 
-  &Item {}
+.btnWrapper {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 2rem;
 }

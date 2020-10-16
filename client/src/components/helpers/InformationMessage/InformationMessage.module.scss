@@ -29,6 +29,11 @@
   box-shadow: 1px 1px 4px -1px rgba(0, 0, 0, .25);
   animation: messageSlideIn .5s ease-in-out;
 
+  @media (min-width: $breakpointLaptop) {
+    width: 35%;
+    min-height: 15%;
+  }
+
   h3 {
     text-align: center;
     font-weight: 900;

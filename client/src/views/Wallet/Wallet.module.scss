@@ -10,7 +10,21 @@
   h3 {
     margin-top: 5rem;
   }
+
+  i {
+    color: $fontColorPrimary;
+    font-size: 2rem;
+
+    @media (min-width: $breakpointTablet) {
+      font-size: 4rem;
+    }
+  }
+
+  span {
+    color: $fontColorSecondary;
+  }
 }
+
 
 .totalMoney {
   font-size: 2.4rem;
@@ -27,20 +41,26 @@
   color: $fontColorPrimary;
   border-radius: 20px;
 
-  &>* {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 1.5rem;
-    transition: .15s ease-in-out;
+  span {
+    color: $fontColorPrimary;
+  }
+}
 
-    &:hover {
-      transform: translateY(-3px);
-      cursor: pointer;
-    }
+.walletPayIn,
+.walletPayOut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1.5rem;
+  transition: .15s ease-in-out;
+
+  &>* {
+    width: 100%;
+    text-align: center;
   }
 
-  i {
-    font-size: 2rem;
+  &:hover {
+    transform: scale(1.1);
+    cursor: pointer;
   }
 }

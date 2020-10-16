@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Button.module.scss';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 const Button = ({ text, secondary, onClick, disabled }) => {
@@ -19,5 +20,13 @@ const Button = ({ text, secondary, onClick, disabled }) => {
     </button>
   );
 };
+
+
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  secondary: PropTypes.bool,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
+}
 
 export default Button;

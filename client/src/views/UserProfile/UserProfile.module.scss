@@ -2,10 +2,10 @@
 
 .wrapper {
   height: 100%;
-  // padding: 1rem 0;
-  // display: flex;
-  // justify-content: flex-start;
-  // flex-direction: column;
+
+  p {
+    text-align: left;
+  }
 
 
   &>* {
@@ -50,4 +50,12 @@
   @media (min-width: $breakpointTablet) {
     margin-top: 5rem;
   }
+}
+
+.confirmedAccount {
+  color: $fontColorGreen;
+}
+
+.notConfirmedAccount {
+  color: $fontColorRed;
 }

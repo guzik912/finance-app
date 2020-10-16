@@ -30,7 +30,24 @@
   }
 
   &Username {
+    padding: 0 .5rem;
+    // color: $fontColorPrimary;
+
+    i {
+      margin-right: .5rem;
+      color: $fontColorPrimary;
+    }
+  }
+
+  &Wallet {
     margin-bottom: 2rem;
+    padding: 0 .5rem;
+    // color: $fontColorPrimary;
+
+    i {
+      margin-right: .5rem;
+      color: $fontColorPrimary;
+    }
   }
 
   &List {
@@ -56,6 +73,10 @@
       background: $bgcColorPrimary;
     }
 
+    &:nth-child(7) {
+      position: relative;
+    }
+
     &:last-child {
       margin-top: auto;
     }
@@ -71,4 +92,20 @@
       font-size: 1.2rem;
     }
   }
+}
+
+.responseCreditMailNotification {
+  color: $fontColorPrimary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background: $fontColorGray;
+  border-radius: 50%;
 }

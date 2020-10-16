@@ -1,14 +1,32 @@
 import React from 'react';
 import styles from './Navbar.module.scss';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../../actions/auth';
 
 const Navbar = ({ isOpen }) => {
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.authReducer.user.username);
+  const wallet = useSelector(
+    (state) => state.authReducer.user.wallet.totalMoney
+  );
   const isOpenClass = isOpen && styles.navbarIsOpen;
+  const responseCreditMail = useSelector(
+    (state) => state.creditsReducer.responseCreditMail
+  );
 
   return (
     <nav className={cx(styles.navbar, isOpenClass)}>
-      <span className={styles.navbarUsername}>Karol Guzik</span>
+      <span className={styles.navbarUsername}>
+        <i className='far fa-user'></i>
+        {username}
+      </span>
+      <span className={styles.navbarWallet}>
+        <i className='fas fa-coins'></i>
+        {wallet.toLocaleString()}$
+      </span>
       <ul className={styles.navbarList}>
         <NavLink
           to='/financials'
@@ -16,7 +34,7 @@ const Navbar = ({ isOpen }) => {
           activeClassName={styles.navbarItemActive}
         >
           <li>
-            <i className='fa fa-globe-europe'></i>Financials
+            <i className='fa fa-globe-europe'></i>Finance
           </li>
         </NavLink>
         <NavLink
@@ -65,12 +83,15 @@ const Navbar = ({ isOpen }) => {
           </li>
         </NavLink>
         <NavLink
-          to='mailbox'
+          to='/mailbox'
           className={styles.navbarItem}
           activeClassName={styles.navbarItemActive}
         >
           <li>
-          <i className="fas fa-envelope-open-text"></i>Mailbox
+            <i className='fas fa-envelope-open-text'></i>Mailbox
+            {responseCreditMail && (
+              <span className={styles.responseCreditMailNotification}>!</span>
+            )}
           </li>
         </NavLink>
         <NavLink
@@ -78,6 +99,7 @@ const Navbar = ({ isOpen }) => {
           exact
           className={styles.navbarItem}
           activeClassName={styles.navbarItemActive}
+          onClick={() => dispatch(logout())}
         >
           <li>
             <i className='fas fa-sign-out-alt'></i>Log out
@@ -86,6 +108,10 @@ const Navbar = ({ isOpen }) => {
       </ul>
     </nav>
   );
+};
+
+Navbar.propTypes = {
+  isOpen: PropTypes.bool,
 };
 
 export default Navbar;

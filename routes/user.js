@@ -4,17 +4,13 @@ const userController = require('../controllers/user');
 const isAuth = require('../middlewares/auth');
 
 
-// router.get('/getFinancials', isAuth, userController.getFinancials);
-
-// router.get('/getFinancial/:id', isAuth, userController.getFinancial);
-
 router.post('/buyFinancial/:id', isAuth, userController.buyFinancial);
 
 router.post('/rebuyFinancial/:id', isAuth, userController.rebuyFinancial);
 
 router.delete('/sellFinancial/:id', isAuth, userController.sellFinancial);
 
-router.post('/calcFinancialProfit/:id', isAuth, userController.calcFinancialProfit);
+router.post('/calcFinancialInvestments/:id', isAuth, userController.calcFinancialInvestments);
 
 router.post('/applyForCredit/:id', isAuth, userController.applyForCredit);
 
@@ -27,6 +23,10 @@ router.post('/payInCash', isAuth, userController.payInCash);
 router.post('/payOutCash', isAuth, userController.payOutCash);
 
 router.post('/setPersonalData', isAuth, userController.setPersonalData);
+
+router.delete('/deleteMailbox', isAuth, userController.deleteMessages);
+
+router.delete('/deleteMailboxMessage/:id', isAuth, userController.deleteMessage);
 
 
 module.exports = router;

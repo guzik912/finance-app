@@ -8,7 +8,7 @@ exports.createFinancial = async (req, res) => {
     let financial = await Financial.findOne({ name });
 
     if (financial) {
-      return res.status(400).json({ errors: 'Financial already exist' });
+      return res.status(400).json({ errors: [{msg:'Finance already exists'}] });
     }
 
     financial = new Financial({
@@ -19,10 +19,9 @@ exports.createFinancial = async (req, res) => {
 
     await financial.save();
 
-    return res.status(201).json({ msg: 'Financial successfully created' });
+    return res.status(201).json({ msg: 'Finance successfully created' });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -31,12 +30,12 @@ exports.getFinancials = async (req, res) => {
     const financials = await Financial.find();
 
     if (!financials) {
-      return res.status(401).json({ errors: 'No financials exists' });
+      return res.status(401).json({ errors: [{msg:'No finance exists'}] });
     }
 
     return res.status(200).json({ financials });
   } catch (err) {
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send( 'Server error');
   }
 };
 
@@ -47,13 +46,12 @@ exports.getFinancial = async (req, res) => {
     const financial = await Financial.findById({ _id: financialId });
 
     if (!financial) {
-      return res.status(401).json({ errors: 'No financial exist' });
+      return res.status(401).json({ errors: [{msg:'No finance exist'}] });
     }
 
     return res.status(200).json({ financial });
   } catch (err) {
-    console.log(err)
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -67,7 +65,7 @@ exports.updateFinancials = async (req, res) => {
     const financials = await Financial.find();
 
     if (!financials) {
-      return res.status(401).json({ errors: 'No any financial exist' });
+      return res.status(401).json({ errors: [{msg:'No any finance exist'}] });
     }
 
     financials.forEach((financial) => {
@@ -95,10 +93,9 @@ exports.updateFinancials = async (req, res) => {
 
     return res
       .status(201)
-      .json({ msg: 'Financials value updated', financials });
+      .json({ msg: 'Finance value updated', financials });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 

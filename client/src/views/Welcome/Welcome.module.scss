@@ -9,10 +9,15 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+
+  h2 {
+    visibility: hidden;
+  }
 }
 
 .btnWrapper {
   text-align: right;
+  visibility: hidden;
 }
 
 
@@ -20,6 +25,7 @@
   display: flex;
   margin-bottom: 3rem;
   justify-content: space-between;
+  visibility: hidden;
 
   @media (min-width: $breakpointTablet) {
     justify-content: space-evenly;

@@ -10,25 +10,35 @@ const { sendGridURI } = require('../config/url');
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        sendGridURI,
+      api_key: sendGridURI,
     },
   })
 );
 
-
-
 exports.authUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id)
+      .select('-password')
+      .populate([{
+        path: 'financials financialsHistory',
+        populate: {
+          path: 'financial',
+        },
+      },
+      {
+        path: 'credits creditsHistory',
+        populate: {
+          path: 'credit',
+        },
+      },
+    ]);
     res.json(user);
   } catch (error) {
-    res.status(500).send('Server error');
+    return res.status(500).send('Server error');
   }
-}
-  
+};
 
-exports.signup = async (req, res) => {
+exports.registration = async (req, res) => {
   const { username, email, password } = req.body;
   let accountConfirmToken;
 
@@ -41,7 +51,7 @@ exports.signup = async (req, res) => {
     if (err) {
       return res
         .status(401)
-        .json({ errors: 'Problem with generate random token' });
+        .json({ errors: [{ msg: 'Problem with generate random token' }] });
     }
     accountConfirmToken = buffer.toString('hex');
   });
@@ -50,7 +60,7 @@ exports.signup = async (req, res) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      return res.status(400).json({ errors: 'User already exist' });
+      return res.status(400).json({ errors: [{ msg: 'Account with that email already exists' }] });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -65,52 +75,45 @@ exports.signup = async (req, res) => {
     await user.save();
     transporter.sendMail({
       to: email,
-      from: 'finance.world@o2.pl',
+      from: 'finance.world@t.pl',
       subject: 'Confirmation account',
       html: `<h1>Welcome in Finance World ${username}</h1>
             <p>Your registration was successfully. One more step before manage your application, please confirm your registration, by click link below</p>
-            <a href="http://localhost:5000/auth/confirmAccount/${accountConfirmToken}">Confirm account</a>
+            <a href="http://localhost:3000/confirmAccount/${accountConfirmToken}">Confirm account</a>
           `,
     });
 
     return res.status(201).json({
-      msg:
-        'User registered! Please confirm your registration from your email account.',
+      msg: 'User successfully registered!',
     });
   } catch (err) {
-    console.log(err)
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
 exports.confirmAccount = async (req, res) => {
   const accountConfirmToken = req.params.accountConfirmToken;
-  const authHeader = req.get('Authorization');
 
   try {
-    const user = await User.findOne({ accountConfirmToken });
+    const user = await User.findOne({ accountConfirmToken: accountConfirmToken });
 
     if (!user) {
       return res
         .status(401)
-        .json({ errors: 'Problem with authenticate account' });
-    }
-
-    if (!authHeader) {
-      // res.redirect('/signin');
-      console.log('no authHeader set');
+        .json({ errors: [{ msg: 'Problem with authenticate account' }] });
     }
 
     user.accountConfirmStatus = true;
     user.accountConfirmToken = undefined;
     await user.save();
     return res.status(201).json({ msg: 'Account successfully confirmed' });
+
   } catch (err) {
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
-exports.signin = async (req, res) => {
+exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -119,13 +122,13 @@ exports.signin = async (req, res) => {
     if (!user) {
       return res
         .status(401)
-        .json({ errors: 'Account not exist with that email' });
+        .json({ errors: [{ msg: 'Account not exist with that email' }] });
     }
 
     const isEqualPassword = await bcrypt.compare(password, user.password);
 
     if (!isEqualPassword) {
-      res.status(401).json({ errors: 'Wrong password' });
+      res.status(401).json({ errors: [{ msg: 'Wrong password' }] });
     }
 
     const payload = {
@@ -136,9 +139,9 @@ exports.signin = async (req, res) => {
 
     const token = jwt.sign(payload, 'supersecrettoken', { expiresIn: '1h' });
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ token, msg: 'User logged successfully' });
   } catch (err) {
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -158,7 +161,9 @@ exports.postResetPassword = async (req, res) => {
 
   crypto.randomBytes(32, (err, buffer) => {
     if (err) {
-      res.status(401).json({ errors: 'Problem with generate random token' });
+      res
+        .status(401)
+        .json({ errors: [{ msg: 'Problem with generate random token' }] });
       return res.redirect('/resetPassword');
     }
     resetToken = buffer.toString('hex');
@@ -168,7 +173,9 @@ exports.postResetPassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.status(401).json({ errors: 'Account not exist with that email' });
+      res
+        .status(401)
+        .json({ errors: [{ msg: 'Account not exist with that email' }] });
       return res.redirect('/resetPassword');
     }
 
@@ -178,21 +185,20 @@ exports.postResetPassword = async (req, res) => {
     await user.save();
     transporter.sendMail({
       to: email,
-      from: 'finance.world@o2.pl',
+      from: 'finance.world@t.pl',
       subject: 'Reset password',
       html: `
         <h1>Forgot password? 
         <p>Dont worry ${user.username}, you can set up your new password by click link below.</p>
-        <a href="http://localhost:5000/auth/resetPassword/${resetToken}">Reset password</a>
+        <a href="http://localhost:3000/resetPassword/${resetToken}">Reset password</a>
       `,
     });
 
     return res.status(201).json({
-      msg: 'Reset instruction was sent to your email address.',
+      msg: 'Reset instruction was sent to your email address',
     });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -206,10 +212,9 @@ exports.getResetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ errors: 'No user authorized' });
+      return res.status(401).json({ errors: [{ msg: 'No user authorized' }] });
     }
 
-    // TODO change later for response object with these data ( will be loaded from req.body in front end )
     const authenticatedUser = {
       userId: user._id.toString(),
       resetToken,
@@ -220,7 +225,7 @@ exports.getResetPassword = async (req, res) => {
       user: authenticatedUser,
     });
   } catch (err) {
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
@@ -235,7 +240,7 @@ exports.postNewPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ errors: 'No user authorized' });
+      return res.status(401).json({ errors: [{ msg: 'No user authorized' }] });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
@@ -248,29 +253,33 @@ exports.postNewPassword = async (req, res) => {
 
     return res.status(201).json({ msg: 'Password successfully changed' });
   } catch (err) {
-    return res.status(500).json({ errors: 'Server error' });
+    return res.status(500).send('Server error');
   }
 };
 
-
 exports.showUsers = async (req, res) => {
   try {
-    const users = await User.find().populate(
+    const users = await User.find().populate([
       {
-        path: 'financials',
-        path: 'financialsHistory',
+        path: 'financials financialsHistory',
         populate: {
           path: 'financial',
-        }
-      });
+        },
+      },
+      {
+        path: 'credits creditsHistory',
+        populate: {
+          path: 'credit',
+        },
+      },
+    ]);
 
-    if(!users) {
-      return res.status(401).json({ errors: 'No any user exist'})
-    } 
+    if (!users) {
+      return res.status(401).json({ errors: [{ msg: 'No any user exist' }] });
+    }
 
     return res.status(200).json({ users });
-  } catch(err) {
-    console.log(err)
-    return res.status(500).json({ errors: 'Server error'})
+  } catch (err) {
+    return res.status(500).send('Server error');
   }
-}
+};

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './TopNav.module.scss';
+import PropTypes from 'prop-types';
 
 const TopNav = ({ children }) => {
   return (
@@ -10,5 +11,9 @@ const TopNav = ({ children }) => {
     </div>
   );
 };
+
+TopNav.propTypes = {
+  children: PropTypes.any.isRequired,
+}
 
 export default TopNav;

@@ -8,6 +8,11 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
+  p {
+    color: $fontColorRed;
+    text-align: left;
+  }
 }
 
 .formWrapper {
@@ -50,7 +55,8 @@
   font-weight: 900;
 }
 
-.noRegistration {
+.noRegistration,
+.forgotPassword {
   margin-top: .5rem;
   font-size: .8rem;
   color: $fontColorGray;

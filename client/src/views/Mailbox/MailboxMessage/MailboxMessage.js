@@ -1,34 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './MailboxMessage.module.scss';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import UserPanelTemplate from '../../../templates/UserPanelTemplate/UserPanelTemplate';
 import Button from '../../../components/shared/Button/Button';
+import Loader from '../../../components/layout/Loader/Loader';
+import Moment from 'react-moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteMessage } from '../../../actions/user';
 
-const MailboxView = () => {
+const MailboxView = ({ match, history }) => {
+  const dispatch = useDispatch();
+  const id = match.params.id;
+
+  const message = useSelector((state) =>
+    state.authReducer.user.mailbox.find(message => message._id == id)
+  );
+
+  const handleDeleteMessage = () => {
+    dispatch(deleteMessage(id, history));
+  }
+
   return (
     <UserPanelTemplate>
+      <div className={styles.wrapper}>
       <Link to='/mailbox'>
         <i className='fas fa-arrow-left'></i>
       </Link>
-      <div className={styles.wrapper}>
-        <h3 className={styles.title}>Credit apply</h3>
-        <span className={styles.date}>2020-09-10</span>
-        <p className={styles.description}>
-          `Dear Karol. We regret to inform you that proposal regarding credit
-          from Santander is rejected. We hope you will meet the requirements
-          until next consider about credit. We wish you all the best. Best
-          Regards, Santander`
-        </p>
-        {/* <p className={styles.description}>
-          `Dear Karol. We are pleased to announce that proposal regarding credit
-          from Santander is accepted. Money automatically will be transferred to
-          your account in next 12 hours. We wish you all the best. Best Regards,
-          Santander`
-        </p> */}
+        {message ? (
+          <>
+            <h3 className={styles.title}>{message.title}</h3>
+            <span className={styles.date}><Moment format="dddd YYYY-MM-DD hh:mm:ss" date={message.date} /></span>
+            <p className={styles.description}>{message.description}</p>
+          </>
+        ) : (
+          <Loader />
+        )}
       </div>
-      <Button text='delete' />
+      <Button text='delete' onClick={handleDeleteMessage}/>
     </UserPanelTemplate>
   );
 };
+
+
+MailboxView.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+}
 
 export default MailboxView;

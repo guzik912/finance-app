@@ -1,0 +1,72 @@
+@import '../../../App.scss';
+
+.wrapper {
+
+  h3 {
+    margin: 1rem 0 .5rem;
+  }
+
+  p {
+    color: $fontColorRed;
+  }
+
+  i {
+    color: $fontColorPrimary;
+  }
+}
+
+.paymentMethods {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  @media (min-width: $breakpointTablet) {
+    flex-direction: row;
+  }
+
+  &>* {
+    margin: .5rem 0;
+    padding: 1rem .5rem;
+    width: 180px;
+    border: 1px solid $fontColorGray;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @media (min-width: $breakpointTablet) {
+      margin: .5rem;
+    }
+  }
+}
+
+.selectedPaymentMethodStyle {
+  background: $bgcColorGreen;
+  color: $fontColorSecondary;
+}
+
+.bankTransferDetails {
+  margin-left: 1rem;
+
+  h3 {
+    font-weight: 900;
+  }
+
+  p {
+    color: $fontColorPrimary;
+  }
+}
+
+.btnWrapper {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.emptyInputValidationError {
+  font-size: 1rem;
+  color: $fontColorRed;
+}

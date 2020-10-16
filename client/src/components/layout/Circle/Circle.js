@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Circle.module.scss';
+import PropTypes from 'prop-types';
 
 const Circle = ({ position }) => {
   const className =
@@ -11,5 +12,9 @@ const Circle = ({ position }) => {
 
   return <div className={className}></div>;
 };
+
+Circle.propTypes = {
+  position: PropTypes.string,
+}
 
 export default Circle;

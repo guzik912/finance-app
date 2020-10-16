@@ -16,14 +16,35 @@ const userSchema = new Schema({
     required: true,
   },
   personalData: {
-    firstName: String,
-    lastName: String,
-    email: String,
-    phoneNumber: Number,
+    firstName: {
+      type: String,
+      default: '',
+    },
+    lastName: {
+      type: String,
+      default: '',
+    },
+    email: {
+      type: String,
+      default: '',
+    },
+    phoneNumber: {
+      type: Number,
+      default: null,
+    },
     address: {
-      country: String,
-      city: String,
-      street: String
+      country: {
+        type: String,
+        default: '',
+      },
+      city: {
+        type: String,
+        default: '',
+      },
+      street: {
+        type: String,
+        default: '',
+      } 
     },
   },
   accountConfirmStatus: {
@@ -61,8 +82,20 @@ const userSchema = new Schema({
             type: Number,
             default: 0,
           },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
         },
       ],
+      totalProfit: {
+        type: Number,
+        default: 0,
+      },
+      totalWaste: {
+        type: Number,
+        default: 0,
+      }
     },
   ],
   financialsHistory: [
@@ -89,6 +122,13 @@ const userSchema = new Schema({
             type: Number,
             default: 0,
           },
+          date: {
+            type: Date,
+          },
+          soldDate: {
+            type: Date,
+            default: Date.now,
+          }
         },
       ],
     },
@@ -102,6 +142,9 @@ const userSchema = new Schema({
       loan: Number,
       term: String,
       repayment: Number,
+      startDate: {
+        type: Date,
+      }
     },
   ],
   creditsHistory: [
@@ -113,6 +156,12 @@ const userSchema = new Schema({
       loan: Number,
       term: String,
       repayment: Number,
+      startDate: {
+        type: Date,
+      },
+      finishDate: {
+        type: Date,
+      },
     }
   ],
   creditProposal: {
@@ -122,7 +171,10 @@ const userSchema = new Schema({
     },
     loan: Number,
     term: String,
-    status: String
+    status: String,
+    startDate: {
+      type: Date,
+    }
   },
   wallet: {
     totalMoney: {

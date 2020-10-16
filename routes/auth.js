@@ -8,7 +8,7 @@ const isAuth = require('../middlewares/auth');
 router.get('/', isAuth, authController.authUser);
 
 router.post(
-  '/signup',
+  '/registration',
   [
     body('username')
       .trim()
@@ -22,18 +22,18 @@ router.post(
       .isLength({ min: 6 })
       .withMessage('Password is too short'),
   ],
-  authController.signup
+  authController.registration
 );
 
-router.post('/signin', authController.signin);
+router.post('/login', authController.login);
 
 router.get('/confirmAccount/:accountConfirmToken', authController.confirmAccount);
 
 router.delete('/delete', isAuth, authController.deleteAccount);
 
-router.post('/resetPassword', authController.postResetPassword);
+router.post('/postResetPassword', authController.postResetPassword);
 
-router.get('/resetPassword/:token', authController.getResetPassword);
+router.get('/getResetPassword/:token', authController.getResetPassword);
 
 router.post('/newPassword', authController.postNewPassword);
 
